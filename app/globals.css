@@ -2,26 +2,67 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+/* V1: cursor blink (hard on/off) */
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+.animate-blink {
+  animation: blink 1s step-start infinite;
 }
 
-body {
-  color: var(--foreground);
-  background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
+/* V3: glitch effect
+   Usage: <element className="glitch-hover" data-text="SAME TEXT">SAME TEXT</element>
+   .glitch-hover already sets position:relative — do NOT add it separately */
+@keyframes glitch {
+  0%, 100% { clip-path: inset(0 0 100% 0); transform: translate(0); color: inherit; }
+  20%       { clip-path: inset(20% 0 60% 0); transform: translate(-4px, 2px); color: #FF0000; }
+  40%       { clip-path: inset(50% 0 30% 0); transform: translate(4px, -2px); color: #00FF41; }
+  60%       { clip-path: inset(80% 0 5% 0);  transform: translate(-2px, 1px); color: inherit; }
+  80%       { clip-path: inset(10% 0 85% 0); transform: translate(2px, -1px); color: inherit; }
+}
+.glitch-hover {
+  position: relative;
+}
+.glitch-hover::after {
+  content: attr(data-text);
+  position: absolute;
+  top: 0;
+  left: 0;
+  pointer-events: none;
+}
+.glitch-hover:hover::after {
+  animation: glitch 0.3s steps(1) infinite;
 }
 
-@layer utilities {
-  .text-balance {
-    text-wrap: balance;
+/* V3: scanline overlay
+   Usage: add className="scanlines" to the outermost div of the V3 page only */
+.scanlines::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background: repeating-linear-gradient(
+    to bottom,
+    transparent,
+    transparent 2px,
+    rgba(0, 0, 0, 0.08) 2px,
+    rgba(0, 0, 0, 0.08) 4px
+  );
+  pointer-events: none;
+  z-index: 9999;
+}
+
+/* Global: disable ALL animations for users who prefer reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
   }
 }

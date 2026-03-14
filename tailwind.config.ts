@@ -8,12 +8,15 @@ const config: Config = {
   ],
   theme: {
     extend: {
-      colors: {
-        background: "var(--background)",
-        foreground: "var(--foreground)",
+      fontFamily: {
+        "space-mono": ["var(--font-space-mono)", "monospace"],
+        "playfair": ["var(--font-playfair)", "serif"],
+        "inter": ["var(--font-inter)", "sans-serif"],
+        "share-tech": ["var(--font-share-tech)", "monospace"],
       },
     },
   },
   plugins: [],
 };
+
 export default config;
