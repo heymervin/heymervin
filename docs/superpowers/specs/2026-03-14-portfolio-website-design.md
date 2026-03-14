@@ -7,104 +7,37 @@
 
 ## Overview
 
-Build Mervin's personal portfolio website as a Next.js 14 + Tailwind CSS app with three distinct brutalist design directions accessible at separate routes. Deploy to Vercel, push to GitHub.
+Build Mervin's personal portfolio website as a Next.js 14 + Tailwind CSS app with three distinct brutalist design directions at separate routes. Deploy to Vercel, push to GitHub. All designs are **text-only** — no images, no avatars, no icons.
 
 ---
 
-## Content
+## Bootstrap
 
-All content is derived from README.md in the project root.
-
-### Owner
-**Mervin de Castro** — Full-Stack Developer building web apps, CRM systems, and AI-powered tools for real businesses.
-
-### Sections (all three versions share the same sections)
-1. **Hero** — Name, title, one-line positioning statement
-2. **About / How I Work** — AI-augmented workflow, solo developer managing multiple client projects
-3. **Projects** — 4 featured projects:
-   - Luma: Business management platform — clients, proposals, invoices, Stripe Connect
-   - Influence Flow: Influencer CRM with social analytics and campaign management
-   - Property Pro: AI property matching with Mapbox visualization for Purple Homes
-   - Haraya: The Philippines' first inclusive wedding planning platform
-4. **Tech Stack** — React, TypeScript, Next.js, Vite, Tailwind CSS, Supabase, Node.js, Python, GoHighLevel, OpenAI, Claude
-5. **Services / What I Build** — Client Platforms, AI-Powered Tools, SaaS Products, GoHighLevel Integrations
-6. **Contact** — CTA to get in touch
-
----
-
-## Architecture
-
-### Framework
-- **Next.js 14** (App Router)
-- **Tailwind CSS** for styling
-- **TypeScript**
-
-### Routes
-| Route | Design |
-|-------|--------|
-| `/` | V1: Raw/Aggressive |
-| `/v2` | V2: Editorial/Swiss |
-| `/v3` | V3: Maximalist/Glitch |
-
-### Project Structure
-```
-heymervin/
-├── app/
-│   ├── page.tsx          # V1: Raw/Aggressive
-│   ├── v2/
-│   │   └── page.tsx      # V2: Editorial/Swiss
-│   ├── v3/
-│   │   └── page.tsx      # V3: Maximalist/Glitch
-│   ├── layout.tsx
-│   └── globals.css
-├── components/
-│   ├── v1/               # Raw/Aggressive components
-│   ├── v2/               # Editorial/Swiss components
-│   └── v3/               # Maximalist/Glitch components
-├── lib/
-│   └── data.ts           # Shared content data
-├── public/
-├── tailwind.config.ts
-├── next.config.ts
-└── package.json
+```bash
+# 1. Preserve original README
+cp README.md README.original.md
+# 2. Bootstrap Next.js (will overwrite README.md with generated one)
+npx create-next-app@14 . --typescript --tailwind --app --no-src-dir --import-alias "@/*" --use-npm
+# 3. Restore original README, delete generated one
+cp README.original.md README.md && rm README.original.md
 ```
 
 ---
 
-## Design Specifications
-
-### V1: Raw/Aggressive (`/`)
-- **Palette:** Pure black `#000000` background, pure white `#FFFFFF` text, no softening
-- **Typography:** `font-mono` (system monospace), ALL CAPS headers, pixel-sharp
-- **Grid:** 1px white borders everywhere, exposed structure, no border-radius
-- **Interaction:** Hover = color inversion (white bg, black text)
-- **Vibe:** Confrontational, like a hacker terminal or a WARNING sign. Balenciaga/brutalist-aggressive.
-- **Hero:** Full viewport, name in massive monospace, cursor blink animation
-- **Cards:** Box bordered, no shadow, sharp corners
-
-### V2: Editorial/Swiss (`/v2`)
-- **Palette:** Off-white `#F5F0E8` bg, near-black `#1A1A18` text, one accent `#C8441B` (burnt orange/red)
-- **Typography:** Heavy display (Black/900 weight) paired with light body (300), tight tracking on large type
-- **Grid:** Strict 12-column Swiss grid, mathematical spacing, clear typographic rhythm
-- **Interaction:** Accent color reveals on hover, underlines, precise micro-animations
-- **Vibe:** High-end editorial magazine, authoritative designer with strong POV
-- **Hero:** Giant display type, left-aligned, name fragmented across lines for visual drama
-- **Cards:** Information directly on surface, no card boxes unless necessary
-
-### V3: Maximalist/Glitch (`/v3`)
-- **Palette:** Dark `#0A0A0A` bg, neon green `#00FF41` primary accent, white secondary, optional red `#FF0000` for glitch effects
-- **Typography:** Oversized, layered, stacked — text as texture. Mix of weights.
-- **Grid:** Deliberately broken — elements offset, overlapping, asymmetric
-- **Interaction:** CSS glitch animations on hover, scanline effects, text flicker
-- **Vibe:** Early-2000s web nostalgia + cyberpunk terminal. Matrix aesthetic.
-- **Hero:** Glitch text animation on name, scanlines overlay, terminal-style typing effect
-- **Cards:** Neon bordered, offset shadows, glitch on hover
-
----
-
-## Shared Content Data (lib/data.ts)
+## Content (lib/data.ts)
 
 ```typescript
+export const hero = {
+  name: "Mervin de Castro",
+  title: "Full-Stack Developer",
+  tagline: "Building web apps, CRM systems, and AI-powered tools for real businesses.",
+}
+
+export const about = {
+  headline: "How I Work",
+  body: `I'm a solo developer managing multiple client projects simultaneously. I run an AI-augmented development workflow: automated documentation, scheduled code health checks, governance-controlled system improvements, and a multi-agent team that handles research, building, and review. The goal is to ship quality software consistently across many projects without burning out.`,
+}
+
 export const projects = [
   { name: "Luma", desc: "Business management platform — clients, proposals, invoices, Stripe Connect", tags: ["SaaS", "Stripe", "CRM"] },
   { name: "Influence Flow", desc: "Influencer CRM with social analytics and campaign management", tags: ["CRM", "Analytics", "AI"] },
@@ -120,24 +53,485 @@ export const services = [
   { name: "SaaS Products", desc: "Analytics dashboards, wedding planning platforms, outreach tools" },
   { name: "GoHighLevel Integrations", desc: "Custom marketplace apps, workflow automations, API integrations" },
 ]
+
+export const contact = {
+  headline: "Let's Build Something.",
+  body: "I'm open to new projects, collaborations, and consulting work.",
+  github: "https://github.com/heymervin",
+  email: "hello@heymervin.com",
+}
 ```
+
+---
+
+## next.config.ts
+
+Leave the file exactly as generated by `create-next-app`. No custom configuration is needed. Do not modify it.
+
+---
+
+## tailwind.config.ts
+
+```typescript
+import type { Config } from "tailwindcss";
+
+const config: Config = {
+  content: [
+    "./pages/**/*.{js,ts,jsx,tsx,mdx}",
+    "./components/**/*.{js,ts,jsx,tsx,mdx}",
+    "./app/**/*.{js,ts,jsx,tsx,mdx}",
+  ],
+  theme: {
+    extend: {
+      fontFamily: {
+        "space-mono": ["var(--font-space-mono)", "monospace"],
+        "playfair": ["var(--font-playfair)", "serif"],
+        "inter": ["var(--font-inter)", "sans-serif"],
+        "share-tech": ["var(--font-share-tech)", "monospace"],
+      },
+    },
+  },
+  plugins: [],
+};
+
+export default config;
+```
+
+---
+
+## app/layout.tsx
+
+```tsx
+import type { Metadata } from "next";
+import "./globals.css";
+
+export const metadata: Metadata = {
+  title: "Mervin de Castro — Full-Stack Developer",
+  description: "Full-stack developer building web apps, CRM systems, and AI-powered tools for real businesses.",
+};
+
+export default function RootLayout({ children }: { children: React.ReactNode }) {
+  return (
+    <html lang="en">
+      <body>{children}</body>
+    </html>
+  );
+}
+```
+
+No global font class on `<body>` — each page applies its own font via the page wrapper div.
+
+---
+
+## app/globals.css
+
+```css
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+/* V1: cursor blink (hard on/off, not fade) */
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+.animate-blink {
+  animation: blink 1s step-start infinite;
+}
+
+/* V3: glitch effect
+   Usage: <element className="glitch-hover" data-text="SAME TEXT AS CONTENT">TEXT</element>
+   The .glitch-hover class sets position:relative — do NOT add it separately on the element. */
+@keyframes glitch {
+  0%, 100% { clip-path: inset(0 0 100% 0); transform: translate(0); color: inherit; }
+  20%       { clip-path: inset(20% 0 60% 0); transform: translate(-4px, 2px); color: #FF0000; }
+  40%       { clip-path: inset(50% 0 30% 0); transform: translate(4px, -2px); color: #00FF41; }
+  60%       { clip-path: inset(80% 0 5% 0);  transform: translate(-2px, 1px); color: inherit; }
+  80%       { clip-path: inset(10% 0 85% 0); transform: translate(2px, -1px); color: inherit; }
+}
+.glitch-hover {
+  position: relative;
+}
+.glitch-hover::after {
+  content: attr(data-text);
+  position: absolute;
+  top: 0;
+  left: 0;
+  pointer-events: none;
+}
+.glitch-hover:hover::after {
+  animation: glitch 0.3s steps(1) infinite;
+}
+
+/* V3: scanline overlay — add class="scanlines" to the outermost div of the V3 page only */
+.scanlines::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background: repeating-linear-gradient(
+    to bottom,
+    transparent,
+    transparent 2px,
+    rgba(0, 0, 0, 0.08) 2px,
+    rgba(0, 0, 0, 0.08) 4px
+  );
+  pointer-events: none;
+  z-index: 9999;
+}
+
+/* Global reduced-motion — disables ALL animations and transitions */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+```
+
+---
+
+## Fonts (per-page loading pattern)
+
+### V1 (app/page.tsx)
+```tsx
+import { Space_Mono } from "next/font/google";
+const spaceMono = Space_Mono({ subsets: ["latin"], weight: ["400", "700"], variable: "--font-space-mono" });
+// Wrap page: <div className={`${spaceMono.variable} font-space-mono`}>
+```
+
+### V2 (app/v2/page.tsx) — two fonts, both variables applied to wrapper
+```tsx
+import { Playfair_Display, Inter } from "next/font/google";
+const playfair = Playfair_Display({ subsets: ["latin"], weight: ["400", "700", "900"], variable: "--font-playfair" });
+const inter = Inter({ subsets: ["latin"], weight: ["300", "400", "500"], variable: "--font-inter" });
+// Wrap page: <div className={`${playfair.variable} ${inter.variable} font-inter`}>
+// Use font-playfair on display headings, font-inter everywhere else
+```
+
+### V3 (app/v3/page.tsx)
+```tsx
+import { Share_Tech_Mono } from "next/font/google";
+const shareTech = Share_Tech_Mono({ subsets: ["latin"], weight: ["400"], variable: "--font-share-tech" });
+// Wrap page: <div className={`${shareTech.variable} font-share-tech`}>
+```
+
+---
+
+## Routes
+
+| Route | Design | File |
+|-------|--------|------|
+| `/` | V1: Raw/Aggressive | `app/page.tsx` |
+| `/v2` | V2: Editorial/Swiss | `app/v2/page.tsx` |
+| `/v3` | V3: Maximalist/Glitch | `app/v3/page.tsx` |
+
+---
+
+## Project Structure
+
+```
+heymervin/
+├── app/
+│   ├── page.tsx
+│   ├── v2/page.tsx
+│   ├── v3/page.tsx
+│   ├── layout.tsx
+│   └── globals.css
+├── components/
+│   ├── v1/
+│   │   ├── Hero.tsx
+│   │   ├── About.tsx
+│   │   ├── Projects.tsx
+│   │   ├── Stack.tsx
+│   │   ├── Services.tsx
+│   │   ├── Contact.tsx
+│   │   └── VersionSwitcher.tsx
+│   ├── v2/
+│   │   ├── Hero.tsx
+│   │   ├── About.tsx
+│   │   ├── Projects.tsx
+│   │   ├── Stack.tsx
+│   │   ├── Services.tsx
+│   │   ├── Contact.tsx
+│   │   └── VersionSwitcher.tsx
+│   └── v3/
+│       ├── Hero.tsx
+│       ├── About.tsx
+│       ├── Projects.tsx
+│       ├── Stack.tsx
+│       ├── Services.tsx
+│       ├── Contact.tsx
+│       └── VersionSwitcher.tsx
+├── lib/
+│   └── data.ts
+├── public/
+├── tailwind.config.ts
+├── next.config.ts
+└── package.json
+```
+
+---
+
+## Design Specifications
+
+### Version Switcher (all three)
+
+Use `"use client"` at the top of every VersionSwitcher component. Use Next.js `usePathname()` from `"next/navigation"` to detect the active route. Mark the current route's link with active styling.
+
+```tsx
+"use client";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+
+const routes = [
+  { href: "/", label: "V1" },
+  { href: "/v2", label: "V2" },
+  { href: "/v3", label: "V3" },
+];
+```
+
+Active detection: `const pathname = usePathname(); const isActive = (href: string) => pathname === href;`
+
+Styling per version:
+- **V1:** nav `font-mono text-xs border border-white px-3 py-2 flex gap-4 bg-black fixed bottom-4 right-4 z-50`; each link `px-1 hover:bg-white hover:text-black`; active link `bg-white text-black`
+- **V2:** nav `text-xs uppercase tracking-[0.2em] flex gap-4 fixed bottom-4 right-4 z-50 bg-[#F5F0E8] px-3 py-2`; active link `border-b-2 border-[#C8441B] text-[#C8441B]`
+- **V3:** nav `font-share-tech text-xs text-[#00FF41] flex gap-4 fixed bottom-4 right-4 z-50 bg-[#0A0A0A] px-2 py-1`; active link `underline`
+
+---
+
+### V1: Raw/Aggressive (`/`)
+
+**Palette:** `#000000` bg, `#FFFFFF` text. Zero grays.
+**Typography:** `font-space-mono`. Headers: `uppercase tracking-widest font-bold`. Body: normal case.
+**Borders:** `border border-white` on every major container. `rounded-none` everywhere. No shadows.
+**Hover:** `hover:bg-white hover:text-black transition-none`
+
+**Hero (Hero.tsx):**
+```
+min-h-screen flex flex-col justify-center px-8 md:px-16 border-b border-white
+H1: "MERVIN DE CASTRO" — text-5xl md:text-9xl font-bold uppercase font-space-mono
+P: "FULL-STACK DEVELOPER" — text-xl md:text-2xl uppercase tracking-widest mt-4
+P: hero.tagline.toUpperCase() — text-sm tracking-widest mt-2 opacity-80
+Cursor: <span className="animate-blink ml-1">|</span> after the name
+```
+
+**About (About.tsx):**
+```
+border-b border-white px-8 md:px-16 py-16
+H2: "HOW I WORK" — text-3xl font-bold uppercase tracking-widest mb-8
+P: about.body — text-sm leading-relaxed max-w-2xl
+```
+
+**Projects (Projects.tsx):**
+```
+Section wrapper: border-b border-white
+Grid: grid grid-cols-1 md:grid-cols-2
+Each card: border border-white p-8 -mt-px -ml-px  (negative margins collapse double borders)
+  - Project name: text-2xl font-bold uppercase mb-2
+  - Description: text-sm leading-relaxed mb-4
+  - Tags: flex gap-2, each tag border border-white px-2 py-1 text-xs uppercase hover:bg-white hover:text-black
+Note: using -mt-px -ml-px on each card collapses adjacent borders into a single 1px line. No CSS last-child logic needed.
+```
+
+**Stack (Stack.tsx):**
+```
+border-b border-white px-8 md:px-16 py-16
+H2: "TECH STACK" — uppercase tracking-widest text-3xl font-bold mb-8
+Flex wrap: flex flex-wrap gap-0
+Each item: border border-white px-4 py-2 text-sm uppercase hover:bg-white hover:text-black -mb-px -mr-px
+```
+
+**Services (Services.tsx):**
+```
+Section wrapper: border-b border-white
+Grid: grid grid-cols-1 md:grid-cols-2
+Each service: border border-white p-8 -mt-px -ml-px  (same -mt-px -ml-px technique as Projects)
+  - Name: text-xl font-bold uppercase mb-2
+  - Desc: text-sm leading-relaxed
+```
+
+**Contact (Contact.tsx):**
+```
+px-8 md:px-16 py-16
+H2: contact.headline.toUpperCase() — text-4xl md:text-7xl font-bold uppercase
+P: contact.body — text-sm mt-4
+Links: flex gap-4 mt-8
+  - GitHub: border border-white px-6 py-3 uppercase text-sm hover:bg-white hover:text-black
+  - Email: border border-white px-6 py-3 uppercase text-sm hover:bg-white hover:text-black
+```
+
+---
+
+### V2: Editorial/Swiss (`/v2`)
+
+**Palette:** bg `#F5F0E8`, text `#1A1A18`, accent `#C8441B`
+**Typography:** `font-playfair` for display, `font-inter` for body.
+**Grid:** Each section is a full-width block using `px-8 md:px-16`. **No 12-col grid wrapper** — sections control their own internal layout (flex rows for projects, 2-col grid for services). The "12-column Swiss grid" in the overview refers to the visual rhythm, not a literal CSS grid class.
+**Spacing:** Sections `py-24 md:py-32`. Groups `gap-12`. Elements `gap-4`.
+**No card borders.** Content lives on the surface.
+
+**Hero (Hero.tsx):**
+```
+Wrapper: relative min-h-screen flex flex-col justify-end pb-16 px-8 md:px-16 bg-[#F5F0E8]
+Line 1: "MERVIN" — font-playfair font-black text-7xl md:text-[10rem] tracking-tight text-[#1A1A18] leading-none
+Line 2: "DE " + <span className="text-[#C8441B]">CASTRO</span> — same styles
+Below: "Full-Stack Developer" — font-inter font-light text-xl text-[#1A1A18] mt-6
+Below: hero.tagline — font-inter font-light text-sm text-[#1A1A18] mt-2 opacity-70
+Decorative label top-right: "PORTFOLIO 2026" — font-inter text-xs uppercase tracking-[0.3em] absolute top-8 right-8
+```
+
+**About (About.tsx):**
+```
+py-24 md:py-32 px-8 md:px-16 bg-[#F5F0E8]
+Label: "HOW I WORK" — font-inter font-medium text-xs uppercase tracking-[0.2em] text-[#C8441B] mb-6
+Body: about.body — font-inter font-light text-base leading-relaxed text-[#1A1A18] max-w-2xl
+```
+
+**Projects (Projects.tsx):**
+```
+py-24 px-8 md:px-16 bg-[#F5F0E8]
+Label: "SELECTED WORK" — font-inter text-xs uppercase tracking-[0.2em] text-[#C8441B] mb-12
+List (not grid): each project is a row with border-b border-[#1A1A18]/20 py-8 flex justify-between items-start gap-8
+  Left: project name — font-playfair font-black text-3xl md:text-5xl text-[#1A1A18]
+  Right: desc — font-inter font-light text-sm max-w-xs text-[#1A1A18]/70
+  Below right: tags — font-inter text-xs uppercase tracking-widest text-[#C8441B]
+```
+
+**Stack (Stack.tsx):**
+```
+py-24 px-8 md:px-16 bg-[#F5F0E8]
+Label: "BUILT WITH" — font-inter text-xs uppercase tracking-[0.2em] text-[#C8441B] mb-8
+Flex wrap gap-3: each item font-inter font-light text-sm text-[#1A1A18]
+  Separated by em-dash: "React — TypeScript — Next.js — ..."
+  Render as a single line of text joined with " — "
+```
+
+**Services (Services.tsx):**
+```
+py-24 px-8 md:px-16 bg-[#F5F0E8]
+Label: "WHAT I BUILD" — font-inter text-xs uppercase tracking-[0.2em] text-[#C8441B] mb-12
+Grid 2x2: grid grid-cols-1 md:grid-cols-2 gap-12
+  Each: name in font-playfair font-bold text-2xl mb-2; desc in font-inter font-light text-sm
+```
+
+**Contact (Contact.tsx):**
+```
+py-24 px-8 md:px-16 bg-[#1A1A18]
+H2: contact.headline — font-playfair font-black text-5xl md:text-8xl text-[#F5F0E8] tracking-tight
+P: contact.body — font-inter font-light text-[#F5F0E8]/70 mt-6
+Links: flex gap-8 mt-10
+  - GitHub: font-inter text-sm text-[#F5F0E8] border-b border-[#C8441B] hover:text-[#C8441B]
+  - Email: same
+```
+
+**Responsive:** `grid-cols-1` on mobile, display shrinks to `text-5xl`.
+
+---
+
+### V3: Maximalist/Glitch (`/v3`)
+
+**Palette:** bg `#0A0A0A`, text `#FFFFFF`, accent `#00FF41`, danger `#FF0000`
+**Typography:** `font-share-tech` all text. Hero `text-7xl md:text-9xl`, body `text-sm`.
+**Page wrapper:** `<div className="scanlines min-h-screen bg-[#0A0A0A] text-white overflow-x-hidden font-share-tech">`
+
+**Hero (Hero.tsx):**
+```
+min-h-screen flex flex-col justify-center px-8 md:px-16 relative
+Decorative: <span className="absolute top-8 left-8 text-[#00FF41] text-xs opacity-30 select-none">// PORTFOLIO.EXE</span>
+H1: className="glitch-hover text-7xl md:text-9xl font-bold leading-none" data-text="MERVIN DE CASTRO"
+  Text: "MERVIN DE CASTRO"
+P: "FULL-STACK DEVELOPER" — text-[#00FF41] text-xl mt-4
+P: hero.tagline — text-sm mt-2 text-white/60
+Decorative offset line: <p className="text-xs text-[#00FF41]/20 mt-8 ml-[-0.5rem]">LOADING PROJECTS... [████████████] 100%</p>
+```
+
+**About (About.tsx):**
+```
+py-20 px-8 md:px-16 border-t border-[#00FF41]/20
+H2: "> HOW I WORK" — text-2xl text-[#00FF41] mb-6
+P: about.body — text-sm leading-relaxed text-white/80 max-w-2xl
+Decorative: <span className="block text-[10px] text-[#00FF41]/20 mt-4">// END PROCESS</span>
+```
+
+**Projects (Projects.tsx):**
+```
+py-20 px-8 md:px-16
+H2: "> PROJECTS" — text-2xl text-[#00FF41] mb-8
+Grid: grid grid-cols-1 md:grid-cols-2 gap-4
+Each card: border border-[#00FF41]/40 p-6 hover:border-[#00FF41] hover:shadow-[0_0_10px_rgba(0,255,65,0.3)] transition-all
+  - Name: text-xl font-bold text-[#00FF41] mb-2
+  - Desc: text-sm text-white/70 mb-4
+  - Tags: flex gap-2, each tag text-xs text-[#00FF41]/60 border border-[#00FF41]/30 px-2 py-1
+```
+
+**Stack (Stack.tsx):**
+```
+py-20 px-8 md:px-16 border-t border-[#00FF41]/20
+H2: "> STACK" — text-2xl text-[#00FF41] mb-6
+Flex wrap gap-2: each item text-xs border border-[#00FF41]/40 px-3 py-1 text-white/70
+Decorative offset label: <span className="block text-[10px] text-[#00FF41]/20 mt-6 ml-4">TOTAL: {stack.length} TECHNOLOGIES LOADED</span>
+```
+
+**Services (Services.tsx):**
+```
+py-20 px-8 md:px-16
+H2: "> SERVICES" — text-2xl text-[#00FF41] mb-8
+List: each service separated by a divider line border-b border-[#00FF41]/10 py-6
+  - Name: text-lg text-[#00FF41] mb-1
+  - Desc: text-sm text-white/60
+```
+
+**Contact (Contact.tsx):**
+```
+py-20 px-8 md:px-16 border-t border-[#00FF41]/20
+H2: className="glitch-hover text-4xl md:text-6xl font-bold" data-text={contact.headline}
+  Text: contact.headline
+P: contact.body — text-sm text-white/60 mt-4
+Links: flex gap-6 mt-8
+  - GitHub: text-[#00FF41] text-sm hover:underline
+  - Email: text-[#00FF41] text-sm hover:underline
+```
+
+**V3 Responsive (mobile < 768px):**
+Remove decorative absolute-positioned elements by hiding them with `hidden md:block`.
+All sections use normal document flow. Hero scales to `text-4xl`. Cards stack to 1 column.
 
 ---
 
 ## Deployment
 
-1. Bootstrap Next.js app in the current repo
-2. Implement all three design variants
-3. `git add`, `git commit`, `git push origin main`
-4. `vercel --prod` to deploy
+### Git
+```bash
+git add .
+git commit -m "Build brutalist portfolio — three design variants"
+git push origin main
+```
+
+### Vercel
+```bash
+npx vercel login                                    # authenticate if needed (browser flow)
+npx vercel link --yes --project heymervin           # non-interactive: creates/links project named "heymervin"
+npx vercel --prod                                   # deploy to production
+```
+If `vercel link --yes` still prompts (e.g. asks for org/scope), answer with the default by pressing Enter. The project name must be `heymervin`.
 
 ---
 
 ## Success Criteria
 
-- [ ] Three distinct brutalist designs accessible at `/`, `/v2`, `/v3`
-- [ ] All six sections present in each design
-- [ ] Responsive (mobile + desktop)
-- [ ] Builds without errors (`next build`)
-- [ ] Deployed to Vercel
-- [ ] Pushed to GitHub
+- [ ] Bootstrap complete, original README preserved
+- [ ] `lib/data.ts` with all content including `hero`, `about`, `projects`, `stack`, `services`, `contact`
+- [ ] `tailwind.config.ts` with all four font families registered
+- [ ] `globals.css` with blink, glitch, scanline, and reduced-motion
+- [ ] `app/layout.tsx` bare (no global font, just metadata + `{children}`)
+- [ ] Three routes each with 6 section components + VersionSwitcher
+- [ ] `next build` — 0 errors, 0 TypeScript errors
+- [ ] Pushed to GitHub `main`
+- [ ] Deployed to Vercel production
