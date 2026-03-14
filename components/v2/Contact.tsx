@@ -2,7 +2,7 @@ import { contact } from "@/lib/data";
 
 export default function Contact() {
   return (
-    <section className="py-24 px-8 md:px-16 bg-[#1A1A18]">
+    <section className="py-24 md:py-32 px-8 md:px-16 bg-[#1A1A18]">
       <h2 className="font-playfair font-black text-5xl md:text-8xl text-[#F5F0E8] tracking-tight leading-tight">
         {contact.headline}
       </h2>
