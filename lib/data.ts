@@ -9,7 +9,18 @@ export const about = {
   body: `I'm a solo developer managing multiple client projects simultaneously. I run an AI-augmented development workflow: automated documentation, scheduled code health checks, governance-controlled system improvements, and a multi-agent team that handles research, building, and review. The goal is to ship quality software consistently across many projects without burning out.`,
 };
 
-export const projects = [
+interface Project {
+  name: string;
+  desc: string;
+  tags: string[];
+}
+
+interface Service {
+  name: string;
+  desc: string;
+}
+
+export const projects: Project[] = [
   { name: "Luma", desc: "Business management platform — clients, proposals, invoices, Stripe Connect", tags: ["SaaS", "Stripe", "CRM"] },
   { name: "Influence Flow", desc: "Influencer CRM with social analytics and campaign management", tags: ["CRM", "Analytics", "AI"] },
   { name: "Property Pro", desc: "AI property matching with Mapbox visualization for Purple Homes", tags: ["AI", "Maps", "Real Estate"] },
@@ -21,7 +32,7 @@ export const stack = [
   "Supabase", "Node.js", "Python", "GoHighLevel", "OpenAI", "Claude",
 ];
 
-export const services = [
+export const services: Service[] = [
   { name: "Client Platforms", desc: "Business management, invoicing, proposals, CRM dashboards" },
   { name: "AI-Powered Tools", desc: "Deep research automation, influencer analytics, property matching" },
   { name: "SaaS Products", desc: "Analytics dashboards, wedding planning platforms, outreach tools" },
